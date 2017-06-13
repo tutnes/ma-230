@@ -134,7 +134,17 @@ I would also claim that Chat has a low threshold, lower than using the phone, an
 Speech Recognition:
 I rarely use speech recognition, in other ways than as a "party trick". To me this is partly because of the social stigma talking to no one out and about, but the other important part is the lacking precision when I have tried it.
 
-I would use the Speech Recognition in much the same way as I would use the 
+In this project I have used the examples from Google, for their Google Speech API
+(REFERENCE)
+
+I have altered the code of the Recognize listener to post the results to a Web API running locally.
+
+But the actual recognized words, has been very limited, typically it has been limited to one, or two words, and not whole sentences.
+I have tried both using the laptops integrated microphone, but also a couple of different headsets. None of them have yielded very impressive results.
+Caveat: It could be that the actual implemtation example from Google is not the best one there is for my use case, and that improving on the recording part of it, and streaming data would be better. However, spending time working on this has not been a priority, so the actual implementation does nothing more than try to recognize a movie and then post the results about it to a channel on Slack.
+
+
+
 
 %----------------------------------------------------------------------------------------
 %	CHAPTER 4 Interactive System: Development
@@ -142,9 +152,31 @@ I would use the Speech Recognition in much the same way as I would use the
 
 \chapterimage{head3.png}
 \chapter{Interactive System: Development}
+I chose to start with an implementation of Speech Recognition, as this was the initial idea of the project.
+Some quick googling, and I landed on Googles Speech API (REFERENCE). There is an online tester (LINK)
+
+First I had to enable the Speech API in the Google Cloud console. The API is limited to a certain amount of seconds in the free tier.
+
+First I tried using the Node JS library, but I was not able to get the sound recorder to work properly on my Windows 10 laptop. (It might work better on a linux or Mac, but I am not sure of that)
+
+I then moved on to C# as I am somewhat familiar with that language. The speech recorder part of that worked much better, and I was able to get the example code to recognize my speech quite quickly.
+After I got it working, I modified the code to post the recognized speech to the designated Slack channel.
+
+I selected Slack, as I have developed a couple of things for posting to its interface earlier, and the familiarty meant I was able to test and implement the speech recognition quicker, than had I selected Facebook Messenger API, or Microsofts similar products.
+The selection here was then based on familiarity and not based on necessarily "Best of breed" for my specific task.
+
+Next part of the development was the "omdbsearcher". Here I selected OMDB (Open Movie Database) and had to donate a couple of dollars to get access to their API. There are implementations for IMDB, but they are not, to my knowledge authorized by IMDB, and I was not interested in spending time on a non official api.
+
+IMDB Also has some of its data dumped to a FTP on regular intervals, so creating an own database could have been a future work part for this project.
+
+The omdbsearcher I implemented in Node JS, as this is the language I can program in fastest. I tested a couple of request with Postman (reference) which is a tool to create web requests to different endpoints. Postman also has a nice feature where you can get the code for replicating the request in different languages.
+
+I then created a local webserver serving the incoming recognized speech, and then trying to search for them on OMDB. If it got a hit, it posted it to the Slack Channel I had selected.
+
 Description of how it was developed
 o	If coding project, then include key code snippets and discuss them
 o	If using a prototype tool, step-by-step description of how the interactive system was created
+
 
 
 %----------------------------------------------------------------------------------------
@@ -154,6 +186,14 @@ o	If using a prototype tool, step-by-step description of how the interactive sys
 \chapterimage{head3.png}
 \chapter{Interactive System: Evaluation}
 •	Evaluation plan for the interactive system incorporating at least 5 design principles from the course
+Unfortunately, even though the TextBlob (reference) python Library is good, it is still lacking with regards to the goal of my project.
+It is able to, sometimes recognize the noun phrase and sentiment, but it is not always the case.
+Also keeping context of a ongoing discussion is not something I have looked into at all.
+However, I do not think this will not be possible to solve in the future, however they might be "hard" problems.
+
+The speech recognition part of the project, albeit fun, did not fulfill my hopes for what it was able to do. For me to be able to do that, I would probably have to work some time on the actual recording of the audio, and how to optimize this part. Also having the audio recorder being able to switch on and off based on speech patterns.
+Also recognizing who actually speaks, is not something I have seen covered in the documentation.
+For recognizing users, a chatroom with identified users, is easier.
 
 %----------------------------------------------------------------------------------------
 %	CHAPTER 6 Ten Meaningful Screens
@@ -183,5 +223,4 @@ List and discuss two valuable organizational outcomes from using your interactiv
 
 
 \vfill
-%\textit{Wish you all the best, Andrea Hidalgo}
 \end{document}
