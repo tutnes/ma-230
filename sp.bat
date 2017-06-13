@@ -1,0 +1,1 @@
+cd C:\github\ma-230\speech-recognizer\speech\api\Recognize\bin\debug

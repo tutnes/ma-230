@@ -1,0 +1,5 @@
+var config = {
+	omdbkey : "<YOUR OMDB KEY HERE>",
+	slackurl : "<YOUR SLACK CHANNEL WEBHOOK HERE>"
+ }
+module.exports = config;
