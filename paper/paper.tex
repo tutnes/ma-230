@@ -79,8 +79,7 @@
 \chapterimage{head3.png} % Chapter heading image
 
 \chapter{Project Description}
-I am starting with the vision for this project. 
-
+\section{Vision}
 Imagine the following scenario.You, and one or more friends, or maybe a romantic partner, are sitting int the sofa in front of the TV. You are having a movie night, but you are not quite sure what you should see. While you sit and discuss your likes, and dislikes, there is a microphone hidden in the corner. The listens to what you are saying, and it is sending it to an Interactive System. It understands, who is speaking, who is liking a movie, and who is not liking a movie. It also has, from earlier experience, knowledge of what you and maybe the ones you are with have seen, and liked. It also knows what you did not like.
 
 After a few minutes discussing with the people it starts rolling some suggestions over the television. 
@@ -93,27 +92,38 @@ The name of the system, is Filmchat.
 
 The goal of the system; To help you decide on the best movie for you, and your friends to watch right now.
 
-\cite{WigdorBraveWorld}
-
 This project is aimed for use at home, or possibly on-line in chat rooms or forums. The goal of the project is to interpret and come up with suggestions for which movies, or TV series its users should watch. I have limited the scope in this project to implement parts of the project, because of the available time given.
 There are competing or projects existing that are close to doing what this project is aiming to do. Below is a non-exhaustive list of such projects, and solutions.
-\section{“And Chill” Netflix recommendation bot}\index{AndChill}
+\section{Competing and nearby Interactive Systems}\index{competing systems}
+While the list is by no means an exhaustive one, these are some of the known interactive systems doing things near to what I want my system to do. None of them has the complete solution.
+\subsection{“And Chill” Netflix recommendation bot}\index{AndChill}
 The “And Chill” chatbot:
 \begin{quote}
 Well, that’s when the Facebook chatbot And Chill comes in handy. The bot asks you to suggest a film you like with a few reasons why, or to simply explain what you’re looking for in your next movie.  
 Within a few moments, the bot should issue you with a short selection of trailers. It sometimes takes a while to compute, but it’s still a pretty efficient way of narrowing down Netflix’s massive library.
-That said, if it’s running at peak capacity, you’ll have to wait your turn before it takes your requests. A representative for the app told a Facebook commenter last month that they were working on scaling capacity.\cite{Williams2016TheUK} 
+That said, if it’s running at peak capacity, you’ll have to wait your turn before it takes your requests. A representative for the app told a Facebook commenter last month that they were working on scaling capacity.\cite{Williams2016TheUK}
 \end{quote}
-\section{Filmgrail}\index{Filmgrail}
-Filmgrail is an app to check where you are able to watch the movie or television series you have selected. What makes Filmgrail unique in a Norwegian context, is that it covers many of the Norwegian streaming services. \cite{AmundsenAppenAftenposten}. At the moment, however 
-\section{Google Assistant}\index{googleassistant}
-Google Assistant can also recommend movies.
+While the And Chill bot, has a nice, based on my experience, recommendation system it is still the task of having to actually sit and chat to a bot. This, to me feels unnecessarily tedious, and somewhat unnatural. However the recommendation engine that sits behind the bot I think is very good. 
+\begin{figure}[]
+  \centering
+   \includegraphics[width=0.77\textwidth]{and_chill_bot.png}
+  \caption{And Chill recommending a movie}
+  \label{fig:and_chill}
+\end{figure}
+
+\subsection{Filmgrail}\index{Filmgrail}
+Filmgrail is an app to check where you are able to watch the movie or television series you have selected. What makes Filmgrail unique in a Norwegian context, is that it covers many of the Norwegian streaming services. \cite{AmundsenAppenAftenposten}.
+At the moment, however, it does not have a "recommendation" engine. It has some "Popular searches" and other similar things, but nothing that can recommend based on what you have watched, or what you like. This could change in the future.
+\subsection{Google Assistant}\index{googleassistant}
+Google Assistant can also recommend movies. See Fig \ref{fig:google_assistant}. It uses my geographical location, or context to recommend a movie that I am able to watch on the cinema nearby. In the example shown in Fig \ref{fig:google_assistant} I was using speech recognition to have it recommend the movie.
+
+The recommendations I have gotten from the Google Assistan has not been very exciting, and to me atleast, not very relevant. The speech recognition however, is very good. Better than the one I was able to implement using Googles Speech API.
 
 \begin{figure}[]
   \centering
-   \includegraphics[width=0.77\textwidth]{google_assitant.png}
-  \caption{Usage of payment instrument millions of transactions (in Norway) 2001 to 2014\cite{Bank2014NoregsKunderetta}}
-  \label{fig:use_of_payment_instrument}
+   \includegraphics[width=0.77\textwidth]{google_assistant.png}
+  \caption{Google Assitant recommending a movie based on geographic context}
+  \label{fig:google_assistant}
 \end{figure}
 
 
@@ -128,43 +138,62 @@ The first part listens to a given channel on Slack, using the outgoing webhook.
 \cite{SlackOutgoingSlack}
 The second part uses Googles Speech API \cite{GoogleCloudPlatformSpeechPlatform} and listens to the microphone. It then tries to search for the terms in the recognized speech and if it finds a movie within it it posts it to the same Slack channel.
 
-The though of using both of these ways of integrating, was to be able to understand natural language surrounding how people talk and chat about movies, and then later on have the different parts use the same components.
+The thought of using both of these ways of integrating, was to be able to understand natural language surrounding how people talk and chat about movies, and then later on have the different parts use the same components.
 
+The vision of the project, not the actual implementation sadly, aimed to follow the design guidelines give in the chapter about Social Natural User Interfaces \(NUI\) that Wigdor and Wixon talks about in ther Brave NUI World book. \cite{WigdorBraveWorld}
 
-
+Some of the ones I believe fitting to Filmchat are:
+\begin{itemize}
+\item Create an experience that comes alive with several users, so that the experience
+is more fun or efficient when many hands are working simultaneously
+\item Enable new users to join, so that the approval of additional users allows them
+to easily engage with your application, without disrupting other users already
+present.
+\item Be able to continue with fewer users, allowing one user to leave without disrupting all others’ experience.
+\end{itemize}
+I believe them fitting because in the social context of watching a movie the, the experience would come alive, when people are sitting and discussing their likes, and dislikes.
+This could, of course be the case in a chat-room setting such as Slack, as well.
 %----------------------------------------------------------------------------------------
 %	CHAPTER 3 Interactive System Design
 %----------------------------------------------------------------------------------------
 
 \chapterimage{head3.png}
 \chapter{Interactive System: Design}
+\begin{figure}[]
+  \centering
+   \includegraphics[width=0.77\textwidth]{system_flow.png}
+  \caption{System Flow for Filmchat}
+  \label{fig:system_flow}
+\end{figure}
 •	Sketches
 •	Design rationale for the interface
 •	Cost/benefit discussion of selected interaction techniques
 
-Cost / Benefit of selected interaction techniques
-Chat:
+\section{Cost / Benefit of selected interaction techniques}
+\subsection{Chat}
 Chat is in my view has become a natural way of interacting, several times a day, I interact through chat, be it privately and also work related. A non-exhaustive list of some of the chat interaction I use during a day, or interactions close to chat, are:
-- SMS or Textmessaging
-- Microsoft Teams
-- Slack
-- Lync for Business (formerly Skype)
-- Facebook Chat
-- WhatsApp
-- Snapchat 
-- Tinder
-- Happn
-- Chat Support on company web pages
+\begin{itemize}
+\item SMS or Textmessaging
+\item Microsoft Teams
+\item Slack
+\item Lync for Business (formerly Skype)
+\item Facebook Chat
+\item WhatsApp
+\item Snapchat 
+\item Tinder
+\item Happn
+\item Chat Support on company web pages
+\end{itemize}
+
 I would also claim that I am in no way unique using many different chat apps throughout the day, and would also therefore claim that chat has become a natural way of interacting with other people.
 
 I would also claim that Chat has a low threshold, lower than using the phone, and it is more instant than using mail. As mail, is in a lot of ways an asynchronous way of communicating.
 
-Speech Recognition:
+\subsection{Speech Recognition}
 I rarely use speech recognition, in other ways than as a "party trick". To me this is partly because of the social stigma talking to no one out and about, but the other important part is the lacking precision when I have tried it.
 
 In this project I have used the examples from Google, for their Google Speech API
-(REFERENCE)
-
+\cite{GoogleCloudPlatformSpeechPlatform}
 I have altered the code of the Recognize listener to post the results to a Web API running locally.
 
 But the actual recognized words, has been very limited, typically it has been limited to one, or two words, and not whole sentences.
@@ -229,7 +258,116 @@ For recognizing users, a chatroom with identified users, is easier.
 
 \chapterimage{head3.png}
 \chapter{Ten Meaningful Screens}
-List 10 meaningful screens that your interactive system provides and specify the operational sequence to find them.
+\section{Speech recognition}
+\begin{figure}[]
+  \centering
+   \includegraphics[width=0.77\textwidth]{speech_recognition_c-sharp.PNG}
+  \caption{Speech recognition using the CSharp SDK for Google Speech}
+  \label{fig:c-sharp-speech}
+\end{figure}
+To get to this screen Fig\ref{fig:c-sharp-speech}, you have to compile the C\# project located under speech-recognizer folder in the GitHub project. \cite{Github2017GitHubProject}
+Then you would have to enable the Speech API in the Google Cloud Console, and then finally compile the C\# and run it.
+When you are able to execute the program, you type in "Recognize.exe listen". The program will then, using the microphone it detects on your system. Listen for audio and send this to the Speech API for recognition. It will then return them to the cli, and also post them to the Omdbsearcher.
+
+\newpage
+\section{Using the Omdbsearcher}
+The omdbsearcher Fig\ref{fig:omdbsearcher} part of Filmchat is located under the Omdsearcher folder in the GitHub project \cite{Github2017GitHubProject}. It is based on NodeJS, so first step is to install the neccessary packages by doing: \"npm install\". Then you start it by executing the command: \"node index.js\". This will in turn start a small webserver running on port 3000.
+It listens for JSON-formatted data.
+\begin{figure}[]
+  \centering
+   \includegraphics[width=0.77\textwidth]{omdbsearcher.PNG}
+  \caption{Omdbsearcher in the cli}
+  \label{fig:omdbsearcher}
+\end{figure}
+For debugging purposes it outputs the search results from the JSON POST it got.
+
+\newpage
+\section{Posting to the Omdbsearcher}
+For developing purposes, it is possible to post directly to the Omdbsearcher without using the other components. See Fig\ref{fig:postman-film}
+
+\begin{figure}[]
+  \centering
+   \includegraphics[width=0.77\textwidth]{postman_sending_film_title.PNG}
+  \caption{Postman sending film title}
+  \label{fig:postman-film}
+\end{figure}
+
+\newpage
+\section{Result in Slack}
+When either posting with Postman, or using the speech recognition component, the results looks like this in the designated Slack channel. Fig\ref{fig:slack-result}
+
+\begin{figure}[]
+  \centering
+   \includegraphics[width=0.77\textwidth]{slack_result.PNG}
+  \caption{Result from post to Omdbsearcher in Slack}
+  \label{fig:slack-result}
+\end{figure}
+
+\newpage
+\section{Sending sentences to TextBlob}
+To start the TextBlob Botlistener, go to the textblob folder in the GitHub project \cite{Github2017GitHubProject}. Install the libararies \"pip install libraries\" and run \"python bot-listener.py\" this will start a webservice running on port 8080, that listens for sentences posted to it.
+\begin{figure}[]
+  \centering
+   \includegraphics[width=0.77\textwidth]{textblob_botlistener.PNG}
+  \caption{TextBlob Python library webservice}
+  \label{fig:slack-result}
+\end{figure}
+
+\newpage
+\section{Sending sentences to TextBlob part 2}
+To send a sentence to the TextBlob Botlistener, use Postman and format the message as seen in Fig\ref{fig:sending-botlistener}
+\begin{figure}[]
+  \centering
+   \includegraphics[width=0.77\textwidth]{postman_sending_sentence_01.PNG}
+  \caption{Sending a sentence to TextBlob Botlistener}
+  \label{fig:sending-botlistener}
+\end{figure}
+
+\newpage
+\section{Combining the TextBlob Botlistener and the Omdbsearcher}
+To send a sentence to the TextBlob Botlistener, use Postman and format the message as seen in Fig\ref{fig:sending-botlistener}
+\begin{figure}[]
+  \centering
+   \includegraphics[width=0.77\textwidth]{postman_sending_sentence_01.PNG}
+  \caption{Sending a sentence to TextBlob Botlistener}
+  \label{fig:sending-botlistener}
+\end{figure}
+
+\section{Combining the TextBlob Botlistener and the Omdbsearcher}
+To send a sentence to the TextBlob Botlistener, use Postman and format the message as seen in Fig\ref{fig:sending-botlistener}
+\begin{figure}[]
+  \centering
+   \includegraphics[width=0.77\textwidth]{postman_sending_sentence_01.PNG}
+  \caption{Sending a sentence to TextBlob Botlistener}
+  \label{fig:sending-botlistener}
+\end{figure}
+
+\section{Combining the TextBlob Botlistener and the Omdbsearcher}
+To send a sentence to the TextBlob Botlistener, use Postman and format the message as seen in Fig\ref{fig:sending-botlistener}
+\begin{figure}[]
+  \centering
+   \includegraphics[width=0.77\textwidth]{postman_sending_sentence_01.PNG}
+  \caption{Sending a sentence to TextBlob Botlistener}
+  \label{fig:sending-botlistener}
+\end{figure}
+
+\section{Combining the TextBlob Botlistener and the Omdbsearcher}
+To send a sentence to the TextBlob Botlistener, use Postman and format the message as seen in Fig\ref{fig:sending-botlistener}
+\begin{figure}[]
+  \centering
+   \includegraphics[width=0.77\textwidth]{postman_sending_sentence_01.PNG}
+  \caption{Sending a sentence to TextBlob Botlistener}
+  \label{fig:sending-botlistener}
+\end{figure}
+
+\section{Combining the TextBlob Botlistener and the Omdbsearcher}
+To send a sentence to the TextBlob Botlistener, use Postman and format the message as seen in Fig\ref{fig:sending-botlistener}
+\begin{figure}[]
+  \centering
+   \includegraphics[width=0.77\textwidth]{postman_sending_sentence_01.PNG}
+  \caption{Sending a sentence to TextBlob Botlistener}
+  \label{fig:sending-botlistener}
+\end{figure}
 
 %----------------------------------------------------------------------------------------
 %	CHAPTER 7 Five Actionable Events
@@ -237,7 +375,8 @@ List 10 meaningful screens that your interactive system provides and specify the
 
 \chapterimage{head3.png}
 \chapter{Five Actionable Events}
-List and discuss 5 actionable events encountered in your interactive system.
+I was not able to find that many actionable events in my Interactive System, but the ones I did find I cover in this section.
+\section{}
 
 %----------------------------------------------------------------------------------------
 %	CHAPTER 8 Two Valuable Outcomes
@@ -245,29 +384,22 @@ List and discuss 5 actionable events encountered in your interactive system.
 
 \chapterimage{head3.png}
 \chapter{Two Valuable Outcomes}
-List and discuss two valuable organizational outcomes from using your interactive system: one in the short-term and the other in the long-term. 
-
 Generally speaking I would say that, unfortunately my interactive system does not provide that valuable of outcomes.
 However here I will try to describe the two, that I thought came the closest.
 
-1:
+\section{Speech recognition of movies}
 Speech recognition of movies. Being able to search for, and find ratings for movies without having to use the telephone, could be something I might use.
+I also thik that this could be a short term valuable outcome of the system. Especially if there was a way of starting to play the movie automatically, once I was happy with the selection. However for a home theater version of this to work, the description and possibly the ability to play a trailer would have to be done on the Television, and maybe not in a Slack channel.
 
-Especially if there was a way of starting to play the movie automatically, once I was happy with the selection.
-
-However for a home theater version of this to work, the description and possibly the ability to play a trailer would have to be done on the Television, and maybe not in a Slack channel.
-
-2:
-Being able to detect how people talk about movies, and then recommending them movies based on what they might also like i think could be very valuable.
-
-The difficulty of course would be the level of Natural Language Processing to make this as seamless as I would want it to be.
-
-My rather simple implementation of using a Python library to detect noun phrases, and sentiment values, can work on some of the sentences people can say, and write about movies, but it does not keep context.
-
+\section{Detect how people talk about movies}
+On the longer term I would say that being able to detect how people talk about movies, and then recommending them movies based on what they might also like i think could be very valuable. The difficulty of course would be the level of Natural Language Processing\cite{Wikipedia2017NaturalProcessing} to make this as seamless as I would want it to be. 
+My rather simple implementation of using a Python library \cite{TextBlobTutorial:Documentation} to detect noun phrases, and sentiment values, can work on some of the sentences people can say, and write about movies, but it does not keep context. 
+\section{Summary of outcomes}
 For both of these outcomes I would, however say, that for me it has been valuable to learn, and try to make the mostly "off-the-shelf" technology work together to create these solutions. And with the amount of time available I am rather happy with what I was able to create.
 
 Future work in this might be interesting, and I do believe that better time, and better knowledge of the API's libraries etcetera would mean a better performing Interactive System.
 
+\printbibliography
 
 \vfill
 \end{document}

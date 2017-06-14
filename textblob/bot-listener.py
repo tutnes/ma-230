@@ -10,7 +10,6 @@ users = {}
 import http.client
 def findMovieTitle(input):
     conn = http.client.HTTPConnection("localhost:3000")
-
     #payload = "{\"text\":\"Gone with the wind\"}"
     payload = "{\"text\":\"" + input + "\"}"
     #payload = {"text": "Gone with the wind"}
@@ -36,26 +35,32 @@ def findMovieTitle(input):
 
 @app.route('/api/', methods=['POST'])
 def api_post():
-    text = request.json['text']
-    username = request.json['user_name']
-
-    testimonial = TextBlob(text)
-    sent = testimonial.sentiment.polarity
-    print (testimonial.noun_phrases)
-    if (len(testimonial.noun_phrases) > 0):
-        noun = testimonial.noun_phrases[0]
+    #text = request.json['text']
+    text = request.form['text']
+    #username = request.json['user_name']
+    username = request.form['user_name']
+    if (username == "slackbot"):
+        return jsonify("OK")
     else:
-        noun = "Did not find movie"
+        testimonial = TextBlob(text)
+        sent = testimonial.sentiment.polarity
+        print (testimonial.noun_phrases)
+        if (len(testimonial.noun_phrases) > 0):
+            noun = testimonial.noun_phrases[0]
+        else:
+            noun = "Did not find movie"
+       
+        
+        findMovieTitle(noun)
+        if (username in users):
+            users[username][noun] = sent
+        else:
+            users[username] = {noun: sent}
+        print (users) #Debug
+        
+        return jsonify(text = username + " has a sentiment value " + str(sent) + " for " + noun)
     
-    
-    findMovieTitle(noun)
-    if (username in users):
-        users[username][noun] = sent
-    else:
-        users[username] = {noun: sent}
-    print (users) #Debug
-    #return "OK"
-    return jsonify(text = username + " has a sentiment value " + str(sent) + " for " + noun)
+        
 
 
 @app.route('/api/', methods=['GET'])
