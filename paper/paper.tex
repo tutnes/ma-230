@@ -74,6 +74,18 @@
 \chapterimage{head3.png} % Chapter heading image
 
 \chapter{Project Description}
+I am starting with the vision for this project. Imagine the following scenario.
+You, and one or more friends, or maybe a romantic partner, are sitting int the sofa. You are having a movie night, but you are not quite sure what you should see. While you sit and discuss your likes, and dislikes, there is a microphone hidden in the corner. The listens to what you are saying, and it is sending it to an Interactive System. It understands, who is speaking, who is liking a movie, and who is not liking a movie. It also has, from earlier experience knowledge of what you and maybe the ones you are with have seen, and liked. It also knows what you did not like.
+
+After a few minutes discussing with the people it starts rolling some suggestions over the television. 
+
+By using your voice, you can tell the Interactive system to play a trailer, if it is showing you something you think might be interesting.
+
+When you have decided it knows on what streaming, or maybe even traditional linear TV the movie plays on and selects that option for you.
+
+The name of the system, is Filmchat.
+
+
 This project is aimed for use at home, or possibly on-line in chat rooms or forums. The goal of the project is to interpret and come up with suggestions for which movies, or TV series its users should watch. I have limited the scope in this project to implement parts of the project, because of the available time given.
 There are competing or projects existing that are close to doing what this project is aiming to do. Below is a non-exhaustive list of such projects, and solutions.
 \section{“And Chill” Netflix recommendation bot}\index{AndChill}
@@ -159,7 +171,7 @@ First I had to enable the Speech API in the Google Cloud console. The API is lim
 
 First I tried using the Node JS library, but I was not able to get the sound recorder to work properly on my Windows 10 laptop. (It might work better on a linux or Mac, but I am not sure of that)
 
-I then moved on to C# as I am somewhat familiar with that language. The speech recorder part of that worked much better, and I was able to get the example code to recognize my speech quite quickly.
+I then moved on to C\# as I am somewhat familiar with that language. The speech recorder part of that worked much better, and I was able to get the example code to recognize my speech quite quickly.
 After I got it working, I modified the code to post the recognized speech to the designated Slack channel.
 
 I selected Slack, as I have developed a couple of things for posting to its interface earlier, and the familiarty meant I was able to test and implement the speech recognition quicker, than had I selected Facebook Messenger API, or Microsofts similar products.
@@ -219,7 +231,26 @@ List and discuss 5 actionable events encountered in your interactive system.
 \chapter{Two Valuable Outcomes}
 List and discuss two valuable organizational outcomes from using your interactive system: one in the short-term and the other in the long-term. 
 
+Generally speaking I would say that, unfortunately my interactive system does not provide that valuable of outcomes.
+However here I will try to describe the two, that I thought came the closest.
 
+1:
+Speech recognition of movies. Being able to search for, and find ratings for movies without having to use the telephone, could be something I might use.
+
+Especially if there was a way of starting to play the movie automatically, once I was happy with the selection.
+
+However for a home theater version of this to work, the description and possibly the ability to play a trailer would have to be done on the Television, and maybe not in a Slack channel.
+
+2:
+Being able to detect how people talk about movies, and then recommending them movies based on what they might also like i think could be very valuable.
+
+The difficulty of course would be the level of Natural Language Processing to make this as seamless as I would want it to be.
+
+My rather simple implementation of using a Python library to detect noun phrases, and sentiment values, can work on some of the sentences people can say, and write about movies, but it does not keep context.
+
+For both of these outcomes I would, however say, that for me it has been valuable to learn, and try to make the mostly "off-the-shelf" technology work together to create these solutions. And with the amount of time available I am rather happy with what I was able to create.
+
+Future work in this might be interesting, and I do believe that better time, and better knowledge of the API's libraries etcetera would mean a better performing Interactive System.
 
 
 \vfill
