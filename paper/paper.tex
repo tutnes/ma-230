@@ -209,8 +209,11 @@ Caveat: It could be that the actual implemtation example from Google is not the 
 
 \chapterimage{head3.png}
 \chapter{Interactive System: Development}
+\section{Overarching Goal}
+The main goal for me, was to see what was possible to do, using mostly "off the shelf" components, being libraries, API's or other available premade solutions. This because the project had a limited time, and I wanted to be as effective as possible.
+\section{Speech recognition}
 I chose to start with an implementation of Speech Recognition, as this was the initial idea of the project.
-Some quick googling, and I landed on Googles Speech API (REFERENCE). There is an online tester (LINK)
+Some quick googling, and I landed on Google's Speech API \cite{GoogleCloudPlatformSpeechPlatform}. There is an on-line tester, where you can talk, and the Web Page will print what you say.
 
 First I had to enable the Speech API in the Google Cloud console. The API is limited to a certain amount of seconds in the free tier.
 
@@ -222,19 +225,28 @@ After I got it working, I modified the code to post the recognized speech to the
 I selected Slack, as I have developed a couple of things for posting to its interface earlier, and the familiarty meant I was able to test and implement the speech recognition quicker, than had I selected Facebook Messenger API, or Microsofts similar products.
 The selection here was then based on familiarity and not based on necessarily "Best of breed" for my specific task.
 
+
+
+\section{Omdbsearcher}
 Next part of the development was the "omdbsearcher". Here I selected OMDB (Open Movie Database) and had to donate a couple of dollars to get access to their API. There are implementations for IMDB, but they are not, to my knowledge authorized by IMDB, and I was not interested in spending time on a non official api.
 
-IMDB Also has some of its data dumped to a FTP on regular intervals, so creating an own database could have been a future work part for this project.
+IMDB Also has some of its data dumped to a FTP on regular intervals, so creating an own database could have been a future work part for this project. \cite{IMDbAlternativeInterfaces}
 
-The omdbsearcher I implemented in Node JS, as this is the language I can program in fastest. I tested a couple of request with Postman (reference) which is a tool to create web requests to different endpoints. Postman also has a nice feature where you can get the code for replicating the request in different languages.
+The Omdbsearcher I implemented in Node JS, as this is the language I can program in fastest. I tested a couple of request with Postman, which is a tool to create web requests to different endpoints. Postman also has a nice feature where you can get the code for replicating the request in different languages.
 
 I then created a local webserver serving the incoming recognized speech, and then trying to search for them on OMDB. If it got a hit, it posted it to the Slack Channel I had selected.
+
+\section{Textblob Botlistener}
+I then checked out a couple of different ways of intepreting language, but have from other projects, already knowledge that Python has such libraries that are good, and with good performance. I therefore winded up with TextBlob, which is a library that can both get sentiment, and noun phrases\cite{WikipediaNounPhrase} from sentences. \cite{TextBlobTutorial:Documentation} 
+I therefore just had to create a webservice interface for the TextBlob, and was able to do this quickly.
 
 Description of how it was developed
 o	If coding project, then include key code snippets and discuss them
 o	If using a prototype tool, step-by-step description of how the interactive system was created
 
-
+\section{Spelling corrector}
+While the Textblob Botlistener was able to get the noun phrase\cite{WikipediaNounPhrase} of sentences about movie, and that this sometimes is an actual movie, this is not always the case. Therefore I thought about using some autocorrect or spelling corrections, but using the freely available IMDB datasets as valid words \cite{IMDbAlternativeInterfaces}. I found a good example by Peter Norvig \cite{NorvigHowCorrector} on how to do it.
+But both the development, and the performance was rather slow, and the dataset would have needed quite a lot of cleaning before I could have used it. Therefore I decided on not to implement this part, and to put it off to a possible future work.
 
 %----------------------------------------------------------------------------------------
 %	CHAPTER 5 Interactive System: Evaluation
