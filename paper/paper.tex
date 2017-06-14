@@ -7,6 +7,7 @@
 % e.g. 920px width and 460px height.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Filmchat}
 
 %----------------------------------------------------------------------------------------
 %	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
@@ -29,8 +30,12 @@
 \usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
 
 % Bibliography
-\usepackage[style=alphabetic,sorting=nyt,sortcites=true,autopunct=true,babel=hyphen,hyperref=true,abbreviate=false,backref=true,backend=biber]{biblatex}
-\addbibresource{bibliography.bib} % BibTeX bibliography file
+%\usepackage[style=alphabetic,sorting=nyt,sortcites=true,autopunct=true,babel=hyphen,hyperref=true,abbreviate=false,backref=true,backend=biber]{biblatex}
+
+%\defbibheading{bibempty}{}
+
+\usepackage[style=ieee,sorting=nyt,sortcites=true,autopunct=true,babel=hyphen,hyperref=true,abbreviate=false,backref=true,backend=biber]{biblatex}
+\addbibresource{Mendeley_MA-230.bib} % BibTeX bibliography file
 \defbibheading{bibempty}{}
 
 \input{structure} % Insert the commands.tex file which contains the majority of the structure behind the template
@@ -74,8 +79,9 @@
 \chapterimage{head3.png} % Chapter heading image
 
 \chapter{Project Description}
-I am starting with the vision for this project. Imagine the following scenario.
-You, and one or more friends, or maybe a romantic partner, are sitting int the sofa. You are having a movie night, but you are not quite sure what you should see. While you sit and discuss your likes, and dislikes, there is a microphone hidden in the corner. The listens to what you are saying, and it is sending it to an Interactive System. It understands, who is speaking, who is liking a movie, and who is not liking a movie. It also has, from earlier experience knowledge of what you and maybe the ones you are with have seen, and liked. It also knows what you did not like.
+I am starting with the vision for this project. 
+
+Imagine the following scenario.You, and one or more friends, or maybe a romantic partner, are sitting int the sofa in front of the TV. You are having a movie night, but you are not quite sure what you should see. While you sit and discuss your likes, and dislikes, there is a microphone hidden in the corner. The listens to what you are saying, and it is sending it to an Interactive System. It understands, who is speaking, who is liking a movie, and who is not liking a movie. It also has, from earlier experience, knowledge of what you and maybe the ones you are with have seen, and liked. It also knows what you did not like.
 
 After a few minutes discussing with the people it starts rolling some suggestions over the television. 
 
@@ -85,6 +91,9 @@ When you have decided it knows on what streaming, or maybe even traditional line
 
 The name of the system, is Filmchat.
 
+The goal of the system; To help you decide on the best movie for you, and your friends to watch right now.
+
+\cite{WigdorBraveWorld}
 
 This project is aimed for use at home, or possibly on-line in chat rooms or forums. The goal of the project is to interpret and come up with suggestions for which movies, or TV series its users should watch. I have limited the scope in this project to implement parts of the project, because of the available time given.
 There are competing or projects existing that are close to doing what this project is aiming to do. Below is a non-exhaustive list of such projects, and solutions.
@@ -93,13 +102,19 @@ The “And Chill” chatbot:
 \begin{quote}
 Well, that’s when the Facebook chatbot And Chill comes in handy. The bot asks you to suggest a film you like with a few reasons why, or to simply explain what you’re looking for in your next movie.  
 Within a few moments, the bot should issue you with a short selection of trailers. It sometimes takes a while to compute, but it’s still a pretty efficient way of narrowing down Netflix’s massive library.
-That said, if it’s running at peak capacity, you’ll have to wait your turn before it takes your requests. A representative for the app told a Facebook commenter last month that they were working on scaling capacity. (Huffington Post 2016)
+That said, if it’s running at peak capacity, you’ll have to wait your turn before it takes your requests. A representative for the app told a Facebook commenter last month that they were working on scaling capacity.\cite{Williams2016TheUK} 
 \end{quote}
 \section{Filmgrail}\index{Filmgrail}
-Filmgrail is an app to check where you are able to watch the movie or television series you have selected. What makes Filmgrail unique in a Norwegian context, is that it covers many of the Norwegian streaming services. (Aftenposten, Filmgrail.com). At the moment, however 
+Filmgrail is an app to check where you are able to watch the movie or television series you have selected. What makes Filmgrail unique in a Norwegian context, is that it covers many of the Norwegian streaming services. \cite{AmundsenAppenAftenposten}. At the moment, however 
 \section{Google Assistant}\index{googleassistant}
 Google Assistant can also recommend movies.
 
+\begin{figure}[]
+  \centering
+   \includegraphics[width=0.77\textwidth]{google_assitant.png}
+  \caption{Usage of payment instrument millions of transactions (in Norway) 2001 to 2014\cite{Bank2014NoregsKunderetta}}
+  \label{fig:use_of_payment_instrument}
+\end{figure}
 
 
 %----------------------------------------------------------------------------------------
@@ -109,8 +124,9 @@ Google Assistant can also recommend movies.
 
 \chapter{Interactive System: Description}
 There are two parts implemented in this system
-The first part listens to a given channel on Slack, using the outgoing webhook (REFERENCE). 
-The second part uses Googles Speech API (reference) and listens to the microphone. It then tries to search for the terms in the recognized speech and if it finds a movie within it it posts it to the same Slack channel.
+The first part listens to a given channel on Slack, using the outgoing webhook.
+\cite{SlackOutgoingSlack}
+The second part uses Googles Speech API \cite{GoogleCloudPlatformSpeechPlatform} and listens to the microphone. It then tries to search for the terms in the recognized speech and if it finds a movie within it it posts it to the same Slack channel.
 
 The though of using both of these ways of integrating, was to be able to understand natural language surrounding how people talk and chat about movies, and then later on have the different parts use the same components.
 
