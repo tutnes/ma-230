@@ -49,8 +49,6 @@ def api_post():
             noun = testimonial.noun_phrases[0]
         else:
             noun = "Did not find movie"
-       
-        
         findMovieTitle(noun)
         if (username in users):
             users[username][noun] = sent

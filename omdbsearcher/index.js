@@ -31,7 +31,6 @@ app.post("/", function(req, res) {
 			if (error) throw new Error(error);
 			postToSlack(JSON.parse(body), options.qs.t)
 			res.send("OK");
-			//console.log(body);
 		});
 
 	} else {
@@ -50,7 +49,6 @@ function postToSlack(result, searchterm) {
 		slackMessage = "Movie with searchterm: " + searchterm + " not found!";
 	} else {
 		slackMessage = formatResult(result);
-		//slackMessage = formatResult(result);
 	}
 	var slackOptions = {
 		method: 'POST',
