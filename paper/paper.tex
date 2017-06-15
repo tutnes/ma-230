@@ -80,17 +80,17 @@
 
 \chapter{Project Description}
 \section{Vision}
-Imagine the following scenario.You, and one or more friends, or maybe a romantic partner, are sitting in the sofa in front of the TV. You are having a movie night, but you are not quite sure what you should see. While you sit and discuss your likes, and dislikes, there is a microphone hidden in the corner. The listens to what you are saying, and it is sending it to an Interactive System. It understands, who is speaking, who is liking a movie, and who is not liking a movie. It also has, from earlier experience, knowledge of what you and maybe the ones you are with have seen, and liked. It also knows what you did not like.
+Imagine the following scenario.You, and one or more friends, or maybe a romantic partner, are sitting in the sofa in front of the TV. You are having a movie night, but you are not quite sure what you should watch. While you sit and discuss your likes and dislikes, there is a microphone hidden in the corner. The listens to what you are saying, and it is sending it to an Interactive System. It understands, who is speaking, who is liking a movie, and who is not liking a movie. It also has, from earlier experience, knowledge of what you and maybe the ones you are with have seen, and liked. It also knows what you did not like.
 
 After a few minutes discussing with the people it starts rolling some suggestions over the television. 
 
 By using your voice, you can tell the Interactive system to play a trailer, if it is showing you something you think might be interesting.
 
-When you have decided it knows on what streaming, or maybe even traditional linear TV the movie plays on and selects that option for you.
+When you have decided, it knows on what streaming service, or maybe even traditional linear TV the movie plays and selects that option for you.
 
 The name of the system, is Filmchat.
 
-The goal of the system; To help you decide on the best movie for you, and your friends to watch right now.
+The goal of the system; to help you decide on the best movie for you, and your friends to watch right now.
 
 This project is aimed for use at home, or possibly on-line in chat rooms or forums. The goal of the project is to interpret and come up with suggestions for which movies, or TV series its users should watch. I have limited the scope in this project to implement parts of the project, because of the available time given.
 There are competing or projects existing that are close to doing what this project is aiming to do. Below is a non-exhaustive list of such projects, and solutions.
@@ -138,13 +138,13 @@ The first part listens to a given channel on Slack, using the outgoing web hook\
 The third part is the Speech Recognizer which is heavily based on the C sharp example from Google's Speech API \cite{GoogleCloudPlatformSpeechPlatform} and listens to the microphone. It then tries to search for the terms in the recognized speech and if it finds a movie within it it posts it to the same Slack channel.
 
 \section{TextBlob Botlistener}
-A Python web service that uses TextBlob\cite{TextBlobTutorial:Documentation} as a way of getting noun phrase, and sentiment from the text it is provided. It gets input from the designated slack channel, using the outgoing web hook \cite{SlackOutgoingSlack}. The TextBlob Botlistener listens to port 8080 by default.
+A Python web service that uses TextBlob\cite{TextBlobTutorial:Documentation} as a way of getting noun phrase\cite{WikipediaNounPhrase}, and sentiment\cite{WikipediaSentimentAnalysis} from the text it is provided. It gets input from the designated slack channel, using the outgoing web hook \cite{SlackOutgoingSlack}. It is programmed in Python. It keeps a python dictionary of the users, and their, movie and their most recent sentiment score in memory. The TextBlob Botlistener listens to port 8080 by default.
 
 \section{Speech Recognizer}
-The Speech recognizer, is based on the Google Speech API \cite{GoogleCloudPlatformSpeechPlatform} and is programmed in C sharp. The code is mostly just adapted to post to a web interface, in addition to printing to the console / cli. The Speech Recognizer listens to the detected microphone on the computer by default. It keeps a python dictionary of the users, and their, movie and their most recent sentiment score in memory.
+The Speech recognizer, is based on the Google Speech API \cite{GoogleCloudPlatformSpeechPlatform} and is programmed in C sharp. The code is mostly just adapted to post to a web interface, in addition to printing to the console / cli. The Speech Recognizer listens to the detected microphone on the computer by default. 
 
 \section{Omdbsearcher}
-The Omdbsearcher is based on the Open Movie Data base API.\cite{OMDbDatabase}. When it gets text it will try to search for this text on the OMDB API and return the JSON formatted result if it finds something, or return a negative result if it does not find anything. The web service listens to port 3000 by default.
+The Omdbsearcher is based on the Open Movie Data base API.\cite{OMDbDatabase}. When it gets text it will try to search for this text on the OMDB API and return the JSON formatted result if it finds something, or return a negative result if it does not find anything. Omdbsearcher is programmed in NodeJS. The web service listens to port 3000 by default.
 
 \newpage
 \section{Architecture}
@@ -154,7 +154,7 @@ The Omdbsearcher is based on the Open Movie Data base API.\cite{OMDbDatabase}. W
   \caption{System Flow for Filmchat}
   \label{fig:system_flow}
 \end{figure}
-The thought of using both of these ways of integrating, was to be able to understand natural language surrounding how people talk and chat about movies, and then later on have the different parts use the same components. This is also why I opted for a modular approach building small components, that I could add to on a later point, and that was easy to test using Postman.
+The idea behind using both chat and voice as interfaces, was to be able to understand natural language surrounding in the context of how people talk and chat about movies. Then later on have the different parts use the same components. This is also why I opted for a modular approach building small components, that I could add to on a later point, and that was easy to test using Postman.
 
 \section{Description of the vision}
 The vision of the project, not the actual implementation sadly, aimed to follow the design guidelines give in the chapter about Social Natural User Interfaces \(NUI\) that Wigdor and Wixon talks about in their Brave NUI World book. \cite{WigdorBraveWorld}
@@ -216,7 +216,7 @@ I would also claim that I am in no way unique using many different chat apps thr
 I would also claim that Chat has a low threshold, lower even, than using the phone, and it is more instant than using mail. As mail, is in a lot of ways an asynchronous way of communicating.
 
 \subsection{Speech Recognition}
-I rarely use speech recognition, in other ways than as a "party trick". To me this is partly because of the social stigma talking to no one out in social settings, but the other important part is the lacking precision when I have tried it.
+I rarely use speech recognition in other ways than as a "party trick". To me this is partly because of the social stigma talking to no one out in social settings, but the other important part is the lacking precision when I have tried it.
 
 In this project I have used the examples from Google, for their Google Speech API
 \cite{GoogleCloudPlatformSpeechPlatform}
@@ -482,35 +482,28 @@ To send a sentence to the TextBlob Botlistener, use Postman and format the messa
 \end{figure}
 
 \newpage
-\section{Combining the TextBlob Botlistener and the Omdbsearcher}
-To send a sentence to the TextBlob Botlistener, use Postman and format the message as seen in Fig\ref{fig:sending-botlistener}
-\begin{figure}[]
-  \centering
-   \includegraphics[width=0.77\textwidth]{postman_sending_sentence_01.PNG}
-  \caption{Sending a sentence to TextBlob Botlistener}
-  \label{fig:sending-botlistener}
-\end{figure}
-
-\newpage
 \section{Getting the status from the TextBlob Botlistener}
-To get the current status of the users and their sentiments around movies, a simple GET to the /api/ will return a JSON formatted result as seen in Fig\ref{fig:sending-botlistener} Negative values are negative sentiments, and as closer the value gets to 1, the better the sentiment. There is also the possibility of using a /sentiment command in the designated Slack channel. See Fig\ref{fig:sentiment-command}
+To get the current status of the users and their sentiments around movies, a simple GET to the /api/ will return a JSON formatted result as seen in Fig\ref{fig:sending-botlistener} Negative values are negative sentiments, and as closer the value gets to 1, the better the sentiment. 
 \begin{figure}[]
   \centering
    \includegraphics[width=0.77\textwidth]{get_textblob.PNG}
   \caption{Getting status of sentiments}
   \label{fig:sentiment-status}
 \end{figure}
+
+\newpage
+\section{Getting the status in the Slack channel}
 \begin{figure}[]
   \centering
    \includegraphics[width=0.77\textwidth]{sentiments_command.PNG}
   \caption{Sentiment command}
   \label{fig:sentiment-command}
 \end{figure}
-
+There is also the possibility of using a /sentiment command in the designated Slack channel to get the same status as in the previous section. See Fig\ref{fig:sentiment-command}
 
 \newpage
 \section{Everything together, almost}
-Here \(Fig\ref{fig:everything-together}\), almost all the components are playing together. I write a chat message in the designated Slack channel, while running both the Omdbsearcher, and the TextBlob Botlistener, and the result, along with the sentiment gets posted to the channel.
+Here \(Fig\ref{fig:everything-together}\), almost all the components are playing together. I write a chat message in the designated Slack channel, while running both the Omdbsearcher, and the TextBlob otlistener, and the result, along with the sentiment gets posted to the channel.
 The only part, not here, is the Speech Recognizer, as I was not able to make it recognize more than a word, here and there.
 
 \begin{figure}[]
