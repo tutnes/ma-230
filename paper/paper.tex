@@ -122,7 +122,7 @@ The recommendations I have gotten from the Google Assistant has not been very ex
 \begin{figure}[]
   \centering
    \includegraphics[width=0.77\textwidth]{google_assistant.png}
-  \caption{Google Assitant recommending a movie based on geographic context}
+  \caption{Google Assistant recommending a movie based on geographic context}
   \label{fig:google_assistant}
 \end{figure}
 
@@ -141,10 +141,10 @@ The third part is the Speech Recognizer which is heavily based on the C sharp ex
 A Python web service that uses TextBlob\cite{TextBlobTutorial:Documentation} as a way of getting noun phrase, and sentiment from the text it is provided. It gets input from the designated slack channel, using the outgoing web hook \cite{SlackOutgoingSlack}. The TextBlob Botlistener listens to port 8080 by default.
 
 \section{Speech Recognizer}
-The Speech recognizer, is based on the Google Speech API \cite{GoogleCloudPlatformSpeechPlatform} and is programmed in Csharp. The code is mostly just adapted to post to a web interface, in addition to printing to the console / cli. The Speech Recognizer listens to the detected microphone on the computer by default. It keeps a python dictionary of the users, and their, movie and their most recent sentiment score in memory.
+The Speech recognizer, is based on the Google Speech API \cite{GoogleCloudPlatformSpeechPlatform} and is programmed in C sharp. The code is mostly just adapted to post to a web interface, in addition to printing to the console / cli. The Speech Recognizer listens to the detected microphone on the computer by default. It keeps a python dictionary of the users, and their, movie and their most recent sentiment score in memory.
 
 \section{Omdbsearcher}
-The Omdbsearcher is based on the Open Movie Data base API.\cite{OMDbDatabase}. When it gets text it will try to search for this text on the OMDB Api and return the JSON formatted result if it finds something, or return a negative result if it does not find anything. The web service listens to port 3000 by default.
+The Omdbsearcher is based on the Open Movie Data base API.\cite{OMDbDatabase}. When it gets text it will try to search for this text on the OMDB API and return the JSON formatted result if it finds something, or return a negative result if it does not find anything. The web service listens to port 3000 by default.
 
 \newpage
 \section{Architecture}
@@ -186,7 +186,7 @@ In the Brave NUI World\cite{Wigdor2010BraveWorld} Wigdor and Wilson leads by say
 \item Create an experience that, for expert users, can feel like an extension of their body.
 \item Create an experience that feels just as natural to a novice as it does to an
 expert user.
-\item Create an experience that is authentic to the medium—do not start by trying to
+\item Create an experience that is authentic to the medium, do not start by trying to
 mimic the real world or anything else.
 \item Build a user interface that considers context, including the right metaphors,
 visual indications, feedback, and input/output methods for the context.
@@ -200,7 +200,7 @@ This is why I wanted it to be able to listen to conversations both written and s
 \subsection{Chat}
 Chat is in my view has become a natural way of interacting, several times a day, I interact through chat, be it privately and also work related. A non-exhaustive list of some of the chat interaction I use during a day, or interactions close to chat, are:
 \begin{itemize}
-\item SMS or Textmessaging
+\item SMS or Text messaging
 \item Microsoft Teams
 \item Slack
 \item Lync for Business (formerly Skype)
@@ -241,7 +241,7 @@ Some quick googling, and I landed on Google's Speech API \cite{GoogleCloudPlatfo
 
 First I had to enable the Speech API in the Google Cloud console. The API is limited to a certain amount of seconds in the free tier.
 
-First I tried using the Node JS library, but I was not able to get the sound recorder to work properly on my Windows 10 laptop. (It might work better on a linux or Mac, but I am not sure of that)
+First I tried using the Node JS library, but I was not able to get the sound recorder to work properly on my Windows 10 laptop. (It might work better on a Linux or Mac, but I am not sure of that)
 
 I then moved on to C\# as I am somewhat familiar with that language. The speech recorder part of that worked much better, and I was able to get the example code to recognize my speech quite quickly.
 After I got it working, I modified the code to post the recognized speech to the designated Slack channel. I then modified it to post to the Omdbsearcher. 
@@ -319,9 +319,9 @@ function postToSlack(result, searchterm) {
     });
 }
 \end{verbatim}
-This function posts the formatted result to Slack. To be able to do this you have to generate the key which is hardcoded into the "config.slackurl" string.  
+This function posts the formatted result to Slack. To be able to do this you have to generate the key which is hard coded into the "config.slackurl" string.  
 
-\section{Textblob Botlistener}
+\section{TextBlob Botlistener}
 I then checked out a couple of different ways of interpreting language. Among them I looked at Wit.AI\cite{Wit.aiWit.ai}, and also looked at API.AI\cite{API.AIConversationalAPI.AI}. While both of them looked promising, the scope of this project meant I should probably use something simpler and faster to implement. 
 From other projects, I already have the knowledge that Python has such libraries that are both good, and with good performance. I therefore winded up with TextBlob, which is a library that can both get sentiment, and noun phrases\cite{WikipediaNounPhrase} from sentences. \cite{TextBlobTutorial:Documentation} 
 I therefore just had to create a web service interface for the TextBlob, and was able to do this quickly.
@@ -354,8 +354,8 @@ def api_post():
 This code snippet listens to the route "/api/" it gets the text and user name formatted as application/x-www-form-urlencoded and then using the TextBlob library extracts the sentiment\cite{WikipediaSentimentAnalysis} and noun phrase\cite{WikipediaNounPhrase}.
 
 \section{Spelling corrector}
-While the Textblob Botlistener was able to get the noun phrase\cite{WikipediaNounPhrase} of sentences about movies, and that this sometimes is an actual movie, it is not always the case. Therefore I thought about using some auto-correct or spelling corrections, but using the freely available IMDB datasets as valid words \cite{IMDbAlternativeInterfaces}. I found a good example by Peter Norvig \cite{NorvigHowCorrector} on how to do it.
-But both the development, and the performance was rather slow, and the dataset would have needed quite a lot of cleaning before I could have used it. Therefore I decided on not to implement this part, and to put it off to a possible future work. The beginning work can be seen in the Github\cite{Github2017GitHubProject} under the did-you-mean folder.
+While the TextBlob Botlistener was able to get the noun phrase\cite{WikipediaNounPhrase} of sentences about movies, and that this sometimes is an actual movie, it is not always the case. Therefore I thought about using some auto-correct or spelling corrections, but using the freely available IMDB datasets as valid words \cite{IMDbAlternativeInterfaces}. I found a good example by Peter Norvig \cite{NorvigHowCorrector} on how to do it.
+But both the development, and the performance was rather slow, and the dataset would have needed quite a lot of cleaning before I could have used it. Therefore I decided on not to implement this part, and to put it off to a possible future work. The beginning work can be seen in the GitHub\cite{Github2017GitHubProject} under the did-you-mean folder.
 
 %----------------------------------------------------------------------------------------
 % CHAPTER 5 Interactive System: Evaluation
@@ -408,7 +408,7 @@ For recognizing users, a chat room with identified users, is easier, this is als
 \begin{figure}[]
   \centering
    \includegraphics[width=0.77\textwidth]{speech_recognition_c-sharp.PNG}
-  \caption{Speech recognition using the CSharp SDK for Google Speech}
+  \caption{Speech recognition using the C Sharp SDK for Google Speech}
   \label{fig:c-sharp-speech}
 \end{figure}
 To get to this screen Fig\ref{fig:c-sharp-speech}, you have to compile the C\# project located under speech-recognizer folder in the GitHub project. \cite{Github2017GitHubProject}
@@ -417,7 +417,7 @@ When you are able to execute the program, you type in "Recognize.exe listen". Th
 
 \newpage
 \section{Using the Omdbsearcher}
-The omdbsearcher Fig\ref{fig:omdbsearcher} part of Filmchat is located under the Omdsearcher folder in the GitHub project \cite{Github2017GitHubProject}. It is based on NodeJS, so first step is to install the neccessary packages by doing: \"npm install\". Then you start it by executing the command: \"node index.js\". This will in turn start a small webserver running on port 3000.
+The Omdbsearcher Fig\ref{fig:omdbsearcher} part of Filmchat is located under the Omdbsearcher folder in the GitHub project \cite{Github2017GitHubProject}. It is based on NodeJS, so first step is to install the necessary packages by doing: \"npm install\". Then you start it by executing the command: \"node index.js\". This will in turn start a small web server running on port 3000.
 It listens for JSON-formatted data.
 \begin{figure}[]
   \centering
@@ -493,18 +493,24 @@ To send a sentence to the TextBlob Botlistener, use Postman and format the messa
 
 \newpage
 \section{Getting the status from the TextBlob Botlistener}
-To get the current status of the users and their sentiments around movies, a simple GET to the /api/ will return a JSON formatted result as seen in Fig\ref{fig:sending-botlistener} Negative values are negative sentiments, and as closer the value gets to 1, the better the sentiment.
+To get the current status of the users and their sentiments around movies, a simple GET to the /api/ will return a JSON formatted result as seen in Fig\ref{fig:sending-botlistener} Negative values are negative sentiments, and as closer the value gets to 1, the better the sentiment. There is also the possibility of using a /sentiment command in the designated Slack channel. See Fig\ref{fig:sentiment-command}
 \begin{figure}[]
   \centering
    \includegraphics[width=0.77\textwidth]{get_textblob.PNG}
   \caption{Getting status of sentiments}
   \label{fig:sentiment-status}
 \end{figure}
+\begin{figure}[]
+  \centering
+   \includegraphics[width=0.77\textwidth]{sentiments_command.PNG}
+  \caption{Sentiment command}
+  \label{fig:sentiment-command}
+\end{figure}
 
 
 \newpage
 \section{Everything together, almost}
-Here \(Fig\ref{fig:everything-together}\), almost all the components are playing together. I write a chat message in the designated Slack channel, while running both the Omdbsearcher, and the TextBlob botlistener, and the result, along with the sentiment gets posted to the channel.
+Here \(Fig\ref{fig:everything-together}\), almost all the components are playing together. I write a chat message in the designated Slack channel, while running both the Omdbsearcher, and the TextBlob Botlistener, and the result, along with the sentiment gets posted to the channel.
 The only part, not here, is the Speech Recognizer, as I was not able to make it recognize more than a word, here and there.
 
 \begin{figure}[]
@@ -527,6 +533,10 @@ When a user says the name of the movie, and the Speech Recognizer is running, it
 \section{User writes a sentiment about a movie}
 If a user writes a sentiment about a movie, the components will try to search for that movie, and post the result, if it can find one, and the sentiment that user has given about it.
 
+\section{User can access the status of the sentiments}
+If a user in the Slack channel wants to check the current status of the sentiments, he or she can write /sentiments, and he will get the currents status from the TextBlob Botlistener.
+
+
 
 %----------------------------------------------------------------------------------------
 % CHAPTER 8 Two Valuable Outcomes
@@ -535,11 +545,11 @@ If a user writes a sentiment about a movie, the components will try to search fo
 \chapterimage{head3.png}
 \chapter{Two Valuable Outcomes}
 Generally speaking I would say that, unfortunately my interactive system does not provide that valuable of outcomes.
-However here I will try to describe the two, that I thought came the closest.
+However here I will try to describe the three, that I thought came the closest.
 
 \section{Speech recognition of movies}
 Speech recognition of movies. Being able to search for, and find ratings for movies without having to use the telephone, could be something I might use.
-I also thik that this could be a short term valuable outcome of the system. Especially if there was a way of starting to play the movie automatically, once I was happy with the selection. However for a home theater version of this to work, the description and possibly the ability to play a trailer would have to be done on the Television, and maybe not in a Slack channel.
+I also think that this could be a short term valuable outcome of the system. Especially if there was a way of starting to play the movie automatically, once I was happy with the selection. However for a home theater version of this to work, the description and possibly the ability to play a trailer would have to be done on the Television, and maybe not in a Slack channel.
 
 \section{Detect how people talk about movies}
 On the longer term I would say that being able to detect how people talk about movies, and then recommending them movies based on what they might also like i think could be very valuable. The difficulty of course would be the level of Natural Language Processing\cite{Wikipedia2017NaturalProcessing} to make this as seamless as I would want it to be. 
