@@ -117,7 +117,7 @@ At the moment, however, it does not have a "recommendation" engine. It has some 
 \subsection{Google Assistant}\index{googleassistant}
 Google Assistant can also recommend movies. See Fig \ref{fig:google_assistant}. It uses my geographical location, or context to recommend a movie that I am able to watch on the cinema nearby. In the example shown in Fig \ref{fig:google_assistant} I was using speech recognition to have it recommend the movie.
 
-The recommendations I have gotten from the Google Assistan has not been very exciting, and to me atleast, not very relevant. The speech recognition however, is very good. Better than the one I was able to implement using Googles Speech API.
+The recommendations I have gotten from the Google Assistant has not been very exciting, and to me at least, not very relevant. The speech recognition however, is very good. Better than the one I was able to implement using Google's Speech API.
 
 \begin{figure}[]
   \centering
@@ -135,10 +135,10 @@ The recommendations I have gotten from the Google Assistan has not been very exc
 \chapter{Interactive System: Description}
 There are three parts implemented in this system
 The first part listens to a given channel on Slack, using the outgoing web hook\cite{SlackOutgoingSlack}.This is the TextBlob Botlisener.Then there is the component that listens to a post message and tries to find a movie from that message. This is the Omdbsearcher.
-The third part is the Speech Regognizer which is heavily based on the Csharp example from Googles Speech API \cite{GoogleCloudPlatformSpeechPlatform} and listens to the microphone. It then tries to search for the terms in the recognized speech and if it finds a movie within it it posts it to the same Slack channel.
+The third part is the Speech Recognizer which is heavily based on the C sharp example from Google's Speech API \cite{GoogleCloudPlatformSpeechPlatform} and listens to the microphone. It then tries to search for the terms in the recognized speech and if it finds a movie within it it posts it to the same Slack channel.
 
 \section{TextBlob Botlistener}
-A Python web service that uses Textblob\cite{TextBlobTutorial:Documentation} as a way of getting noun phrase, and sentiment from the text it is provided. It gets input from the designated slack channel, using the outgoing web hook \cite{SlackOutgoingSlack}. The TextBlob Botlistener listens to port 8080 by default.
+A Python web service that uses TextBlob\cite{TextBlobTutorial:Documentation} as a way of getting noun phrase, and sentiment from the text it is provided. It gets input from the designated slack channel, using the outgoing web hook \cite{SlackOutgoingSlack}. The TextBlob Botlistener listens to port 8080 by default.
 
 \section{Speech Recognizer}
 The Speech recognizer, is based on the Google Speech API \cite{GoogleCloudPlatformSpeechPlatform} and is programmed in Csharp. The code is mostly just adapted to post to a web interface, in addition to printing to the console / cli. The Speech Recognizer listens to the detected microphone on the computer by default. It keeps a python dictionary of the users, and their, movie and their most recent sentiment score in memory.
@@ -181,6 +181,20 @@ The system has three main user inputs \(see Fig\ref{fig:system_flow}\) of which 
 
 The last input, would have used the same modules, but would have gotten their input from a chat room. The difference would have been the more asynchronous behavior of that kind of interaction, but sentiments and information could have been harvested in much the same way.
 \section{Design rationale}
+In the Brave NUI World\cite{Wigdor2010BraveWorld} Wigdor and Wilson leads by saying the following about Natural User interfaces and their design guidelines:
+\begin{itemize}
+\item Create an experience that, for expert users, can feel like an extension of their body.
+\item Create an experience that feels just as natural to a novice as it does to an
+expert user.
+\item Create an experience that is authentic to the medium—do not start by trying to
+mimic the real world or anything else.
+\item Build a user interface that considers context, including the right metaphors,
+visual indications, feedback, and input/output methods for the context.
+\item Avoid falling into the trap of copying existing user interface paradigms.
+\end{itemize}
+
+The emphasis on creating an experience that feels natural, both for the novice, and for the expert, is why I chose to use Speech recognition and chat. During the day I do both chat and speak quite a lot, and if there was a way of enhancing all this interaction to my benefit I would welcome it, and feel it was both natural and seamless.
+This is why I wanted it to be able to listen to conversations both written and spoken.
 
 \section{Cost / Benefit of selected interaction techniques}
 \subsection{Chat}
@@ -199,11 +213,10 @@ Chat is in my view has become a natural way of interacting, several times a day,
 \end{itemize}
 
 I would also claim that I am in no way unique using many different chat apps throughout the day, and would also therefore claim that chat has become a natural way of interacting with other people.
-
-I would also claim that Chat has a low threshold, lower than using the phone, and it is more instant than using mail. As mail, is in a lot of ways an asynchronous way of communicating.
+I would also claim that Chat has a low threshold, lower even, than using the phone, and it is more instant than using mail. As mail, is in a lot of ways an asynchronous way of communicating.
 
 \subsection{Speech Recognition}
-I rarely use speech recognition, in other ways than as a "party trick". To me this is partly because of the social stigma talking to no one out and about, but the other important part is the lacking precision when I have tried it.
+I rarely use speech recognition, in other ways than as a "party trick". To me this is partly because of the social stigma talking to no one out in social settings, but the other important part is the lacking precision when I have tried it.
 
 In this project I have used the examples from Google, for their Google Speech API
 \cite{GoogleCloudPlatformSpeechPlatform}
@@ -211,19 +224,17 @@ I have altered the code of the Recognize listener to post the results to a Web A
 
 But the actual recognized words, has been very limited, typically it has been limited to one, or two words, and not whole sentences.
 I have tried both using the laptops integrated microphone, but also a couple of different headsets. None of them have yielded very impressive results.
-Caveat: It could be that the actual implemtation example from Google is not the best one there is for my use case, and that improving on the recording part of it, and streaming data would be better. However, spending time working on this has not been a priority, so the actual implementation does nothing more than try to recognize a movie and then post the results about it to a channel on Slack.
-
-
-
+Caveat: It could be that the actual implementation example from Google is not the best one there is for my use case, and that improving on the recording part of it, and streaming data would be better. However, spending time working on this has not been a priority, so the actual implementation does nothing more than try to recognize a movie and then post the results about it to a channel on Slack.
+\subsection{Privacy}
+I would also raise the issue of the feeling, real or not about privacy and having something listen into your conversations as I have envisioned here. I think that people might be reluctant to have a device or app listen in on them in their own home, without them having full control of who could listen in.
 
 %----------------------------------------------------------------------------------------
 % CHAPTER 4 Interactive System: Development
 %----------------------------------------------------------------------------------------
-
 \chapterimage{head3.png}
 \chapter{Interactive System: Development}
 \section{Overarching Goal}
-The main goal for me, was to see what was possible to do, using mostly "off the shelf" components, being libraries, API's or other available premade solutions. This because the project had a limited time, and I wanted to be as effective as possible.
+The main goal for me, was to see what was possible to do, using mostly "off the shelf" components, being libraries, API's or other available premade solutions. This because the project had a limited time, and I wanted to be as effective as possible with my time.
 \section{Speech recognition}
 I chose to start with an implementation of Speech Recognition, as this was the initial idea of the project.
 Some quick googling, and I landed on Google's Speech API \cite{GoogleCloudPlatformSpeechPlatform}. There is an on-line tester, where you can talk, and the Web Page will print what you say.
@@ -233,33 +244,118 @@ First I had to enable the Speech API in the Google Cloud console. The API is lim
 First I tried using the Node JS library, but I was not able to get the sound recorder to work properly on my Windows 10 laptop. (It might work better on a linux or Mac, but I am not sure of that)
 
 I then moved on to C\# as I am somewhat familiar with that language. The speech recorder part of that worked much better, and I was able to get the example code to recognize my speech quite quickly.
-After I got it working, I modified the code to post the recognized speech to the designated Slack channel.
+After I got it working, I modified the code to post the recognized speech to the designated Slack channel. I then modified it to post to the Omdbsearcher. 
+\newpage
+The code as be seen below the "Post to SLACK" comment are the lines I had to add to make this work.
+\begin{verbatim}
+foreach (var alternative in result.Alternatives)
+  {
+    Console.WriteLine(alternative.Transcript);
+    // Post to SLACK
+    var client = new RestClient("http://localhost:3000/");
+    var request = new RestRequest(Method.POST);
+    request.AddHeader("content-type", "application/json");
+    request.AddHeader("accept", "application/json");
+    request.AddParameter("application/json", "{\"text\":\"" + alternative.Transcript + "\"}"
+    , ParameterType.RequestBody);
+    IRestResponse response = client.Execute(request);
+}
+\end{verbatim}
 
-I selected Slack, as I have developed a couple of things for posting to its interface earlier, and the familiarty meant I was able to test and implement the speech recognition quicker, than had I selected Facebook Messenger API, or Microsofts similar products.
+I selected Slack, as I have developed a couple of things for posting to its interface earlier, and the familiarity meant I was able to test and implement the speech recognition quicker, than had I selected Facebook Messenger API, or Microsofts similar products.
 The selection here was then based on familiarity and not based on necessarily "Best of breed" for my specific task.
 
-
-
 \section{Omdbsearcher}
-Next part of the development was the "omdbsearcher". Here I selected OMDB (Open Movie Database) and had to donate a couple of dollars to get access to their API. There are implementations for IMDB, but they are not, to my knowledge authorized by IMDB, and I was not interested in spending time on a non official api.
+Next part of the development was the Omdbsearcher. Here I selected OMDB (Open Movie Database)\cite{OMDbDatabase} and had to donate a couple of dollars to get access to their API. There are "hacks" and implementations for IMDB, but they are not, to my knowledge authorized by IMDB, and I was not interested in spending time on a non official API.
 
 IMDB Also has some of its data dumped to a FTP on regular intervals, so creating an own database could have been a future work part for this project. \cite{IMDbAlternativeInterfaces}
 
 The Omdbsearcher I implemented in Node JS, as this is the language I can program in fastest. I tested a couple of request with Postman, which is a tool to create web requests to different endpoints. Postman also has a nice feature where you can get the code for replicating the request in different languages.
 
-I then created a local webserver serving the incoming recognized speech, and then trying to search for them on OMDB. If it got a hit, it posted it to the Slack Channel I had selected.
+I then created a local web server serving the incoming recognized speech, and then trying to search for them on OMDB. If it got a hit, it posted it to the Slack Channel I had selected.
+\newpage
+\subsection{Omdbsearcher listener route}
+\begin{verbatim}
+app.post("/", function(req, res) {
+    if (req.body.text) {
+      console.log("Searching for on OMDB: " + req.body.text)
+        options.qs.t = req.body.text;
+        request(options, function(error, response, body) {
+            if (error) throw new Error(error);
+            postToSlack(JSON.parse(body), options.qs.t)
+            res.send("OK");
+        });
+     } else {
+     res.send("Got no input");
+    }
+});
+\end{verbatim}
+This listener route listens to a HTTP POST JSON with "text" key. It then searches for the text in OMDB. Either way it posts to the Slackchannel using the postToSlack function.
+\newpage
+\subsection{Omdbsearcher post to slack}
+\begin{verbatim}
+function postToSlack(result, searchterm) {
+    var slackMessage;
+    if (result.Response != "True") {
+        console.log(result);
+        slackMessage = "Movie with searchterm: " + searchterm + " not found!";
+      } else {
+        slackMessage = formatResult(result);
+    }
+    var slackOptions = {
+        method: 'POST',
+        url: config.slackurl,
+        headers: {
+            'cache-control': 'no-cache',
+            'content-type': 'application/json',
+            accept: 'application/json'
+        },
+        body: slackMessage,
+        json: true
+    };
+    request(slackOptions, function(error, response, body) {
+        if (error) throw new Error(error);
+        console.log(body);
+    });
+}
+\end{verbatim}
+This function posts the formatted result to Slack. To be able to do this you have to generate the key which is hardcoded into the "config.slackurl" string.  
 
 \section{Textblob Botlistener}
-I then checked out a couple of different ways of intepreting language, but have from other projects, already knowledge that Python has such libraries that are good, and with good performance. I therefore winded up with TextBlob, which is a library that can both get sentiment, and noun phrases\cite{WikipediaNounPhrase} from sentences. \cite{TextBlobTutorial:Documentation} 
-I therefore just had to create a webservice interface for the TextBlob, and was able to do this quickly.
-
-Description of how it was developed
-o If coding project, then include key code snippets and discuss them
-o If using a prototype tool, step-by-step description of how the interactive system was created
+I then checked out a couple of different ways of interpreting language. Among them I looked at Wit.AI\cite{Wit.aiWit.ai}, and also looked at API.AI\cite{API.AIConversationalAPI.AI}. While both of them looked promising, the scope of this project meant I should probably use something simpler and faster to implement. 
+From other projects, I already have the knowledge that Python has such libraries that are both good, and with good performance. I therefore winded up with TextBlob, which is a library that can both get sentiment, and noun phrases\cite{WikipediaNounPhrase} from sentences. \cite{TextBlobTutorial:Documentation} 
+I therefore just had to create a web service interface for the TextBlob, and was able to do this quickly.
+\newpage
+\begin{verbatim}
+@app.route('/api/', methods=['POST'])
+def api_post():
+    #text = request.json['text']
+    text = request.form['text']
+    #username = request.json['user_name']
+    username = request.form['user_name']
+    if (username == "slackbot"):
+        return jsonify("OK")
+    else:
+        testimonial = TextBlob(text)
+        sent = testimonial.sentiment.polarity
+        print (testimonial.noun_phrases)
+        if (len(testimonial.noun_phrases) > 0):
+            noun = testimonial.noun_phrases[0]
+        else:
+            noun = "Did not find movie"
+        findMovieTitle(noun)
+        if (username in users):
+            users[username][noun] = sent
+        else:
+            users[username] = {noun: sent}
+        print (users) #Debug
+        return jsonify(text = username + " has a sentiment value " + str(sent) + " for " + noun)
+\end{verbatim}
+This code snippet listens to the route "/api/" it gets the text and user name formatted as application/x-www-form-urlencoded and then using the TextBlob library extracts the sentiment\cite{WikipediaSentimentAnalysis} and noun phrase\cite{WikipediaNounPhrase}.
 
 \section{Spelling corrector}
-While the Textblob Botlistener was able to get the noun phrase\cite{WikipediaNounPhrase} of sentences about movie, and that this sometimes is an actual movie, this is not always the case. Therefore I thought about using some autocorrect or spelling corrections, but using the freely available IMDB datasets as valid words \cite{IMDbAlternativeInterfaces}. I found a good example by Peter Norvig \cite{NorvigHowCorrector} on how to do it.
-But both the development, and the performance was rather slow, and the dataset would have needed quite a lot of cleaning before I could have used it. Therefore I decided on not to implement this part, and to put it off to a possible future work.
+While the Textblob Botlistener was able to get the noun phrase\cite{WikipediaNounPhrase} of sentences about movies, and that this sometimes is an actual movie, it is not always the case. Therefore I thought about using some auto-correct or spelling corrections, but using the freely available IMDB datasets as valid words \cite{IMDbAlternativeInterfaces}. I found a good example by Peter Norvig \cite{NorvigHowCorrector} on how to do it.
+But both the development, and the performance was rather slow, and the dataset would have needed quite a lot of cleaning before I could have used it. Therefore I decided on not to implement this part, and to put it off to a possible future work. The beginning work can be seen in the Github\cite{Github2017GitHubProject} under the did-you-mean folder.
 
 %----------------------------------------------------------------------------------------
 % CHAPTER 5 Interactive System: Evaluation
@@ -267,15 +363,40 @@ But both the development, and the performance was rather slow, and the dataset w
 
 \chapterimage{head3.png}
 \chapter{Interactive System: Evaluation}
-• Evaluation plan for the interactive system incorporating at least 5 design principles from the course
-Unfortunately, even though the TextBlob (reference) python Library is good, it is still lacking with regards to the goal of my project.
+In this part I have used the design guidelines from chapter 2 given in the book Brave NUI\cite{Wigdor2010BraveWorld} world to evaluate my project.
+
+"[the] goal is to build a user experience
+that is natural to your user, rather than somehow intrinsically natural\cite{Wigdor2010BraveWorld}."
+
+\section{Create an experience that, for expert users, can feel like an extension of their
+body}
+The voice recognition, had it been better, and not so sensitive to the quality of the microphone could have felt like an extension of the users body. Most people speak naturally to other people many times a day. The actual implementation unfortunately is neither natural nor very good.
+
+\section{Create an experience that feels just as natural to a novice as it does to an
+expert user}
+I would argue that both the chat and the speech recognition are both interfaces that are natural to both the novice and the expert. I have mentioned earlier in this project report that I use chat many times a day, and that this is in no part unique to me. I therefore think that this part lives up to the design guideline in a good way.
+
+\section{Create an experience that is authentic to the medium, do not start by trying to
+mimic the real world or anything else}
+Evaluating the Chat part of the interaction I would claim that this is indeed very true to the medium. Users are able to chat, and their sentiments surrounding movies are recorded. I could easily turn of that it posts to the channel every time someone mentions a movie, and instead use the in-memory sentiment database of the TextBlob bot listener only when there was a need to look at it.
+
+\section{Build a user interface that considers context, including the right metaphors,
+visual indications, feedback, and input/output methods for the context}
+I also believe, that by being true to the chat medium I am able to keep the input output, metaphors and indications as they are expected to be according to the mental models of that medium.
+
+\section{Avoid falling into the trap of copying existing user interface paradigms}
+I think I might be guilty of copying existing paradigms, in that I have gotten inspiration from other existing solutions. Be they "And Chill"\cite{Williams2016TheUK} or other chatbots and recommendation engines.
+
+\section{General evaluation}
+Unfortunately, even though the TextBlob\cite{TextBlobTutorial:Documentation} Python Library is good, it is still lacking with regards to the goal of my project.
 It is able to, sometimes recognize the noun phrase and sentiment, but it is not always the case.
 Also keeping context of a ongoing discussion is not something I have looked into at all.
-However, I do not think this will not be possible to solve in the future, however they might be "hard" problems.
+However, I do think this will be possible to solve in the future.
+Even though this might be "hard" problems.
 
 The speech recognition part of the project, albeit fun, did not fulfill my hopes for what it was able to do. For me to be able to do that, I would probably have to work some time on the actual recording of the audio, and how to optimize this part. Also having the audio recorder being able to switch on and off based on speech patterns.
 Also recognizing who actually speaks, is not something I have seen covered in the documentation.
-For recognizing users, a chatroom with identified users, is easier.
+For recognizing users, a chat room with identified users, is easier, this is also the most promising for future work in the short term.
 
 %----------------------------------------------------------------------------------------
 % CHAPTER 6 Ten Meaningful Screens
@@ -307,6 +428,18 @@ It listens for JSON-formatted data.
 For debugging purposes it outputs the search results from the JSON POST it got.
 
 \newpage
+\section{First posts from the speech recognizer to Slack}
+Here we can see the different alternatives the Speech API suggest and that get posted to Slack. See Fig\ref{fig:first-posts}
+
+\begin{figure}[]
+  \centering
+   \includegraphics[width=0.77\textwidth]{first_posts.PNG}
+  \caption{First speech recognized}
+  \label{fig:first-posts}
+\end{figure}
+
+
+\newpage
 \section{Posting to the Omdbsearcher}
 For developing purposes, it is possible to post directly to the Omdbsearcher without using the other components. See Fig\ref{fig:postman-film}
 
@@ -330,11 +463,11 @@ When either posting with Postman, or using the speech recognition component, the
 
 \newpage
 \section{Sending sentences to TextBlob}
-To start the TextBlob Botlistener, go to the textblob folder in the GitHub project \cite{Github2017GitHubProject}. Install the libararies \"pip install libraries\" and run \"python bot-listener.py\" this will start a webservice running on port 8080, that listens for sentences posted to it.
+To start the TextBlob Botlistener, go to the TextBlob folder in the GitHub project \cite{Github2017GitHubProject}. Install the libraries \"pip install libraries\" and run \"python bot-listener.py\" this will start a web service running on port 8080, that listens for sentences posted to it.
 \begin{figure}[]
   \centering
    \includegraphics[width=0.77\textwidth]{textblob_botlistener.PNG}
-  \caption{TextBlob Python library webservice}
+  \caption{TextBlob Python library web service}
   \label{fig:slack-result}
 \end{figure}
 
@@ -358,32 +491,16 @@ To send a sentence to the TextBlob Botlistener, use Postman and format the messa
   \label{fig:sending-botlistener}
 \end{figure}
 
-\section{Combining the TextBlob Botlistener and the Omdbsearcher}
-To send a sentence to the TextBlob Botlistener, use Postman and format the message as seen in Fig\ref{fig:sending-botlistener}
-\begin{figure}[]
-  \centering
-   \includegraphics[width=0.77\textwidth]{postman_sending_sentence_01.PNG}
-  \caption{Sending a sentence to TextBlob Botlistener}
-  \label{fig:sending-botlistener}
-\end{figure}
 \newpage
-\section{Combining the TextBlob Botlistener and the Omdbsearcher}
-To send a sentence to the TextBlob Botlistener, use Postman and format the message as seen in Fig\ref{fig:sending-botlistener}
+\section{Getting the status from the TextBlob Botlistener}
+To get the current status of the users and their sentiments around movies, a simple GET to the /api/ will return a JSON formatted result as seen in Fig\ref{fig:sending-botlistener} Negative values are negative sentiments, and as closer the value gets to 1, the better the sentiment.
 \begin{figure}[]
   \centering
-   \includegraphics[width=0.77\textwidth]{postman_sending_sentence_01.PNG}
-  \caption{Sending a sentence to TextBlob Botlistener}
-  \label{fig:sending-botlistener}
+   \includegraphics[width=0.77\textwidth]{get_textblob.PNG}
+  \caption{Getting status of sentiments}
+  \label{fig:sentiment-status}
 \end{figure}
-\newpage
-\section{Combining the TextBlob Botlistener and the Omdbsearcher}
-To send a sentence to the TextBlob Botlistener, use Postman and format the message as seen in Fig\ref{fig:sending-botlistener}
-\begin{figure}[]
-  \centering
-   \includegraphics[width=0.77\textwidth]{postman_sending_sentence_01.PNG}
-  \caption{Sending a sentence to TextBlob Botlistener}
-  \label{fig:sending-botlistener}
-\end{figure}
+
 
 \newpage
 \section{Everything together, almost}
@@ -402,9 +519,14 @@ The only part, not here, is the Speech Recognizer, as I was not able to make it 
 %----------------------------------------------------------------------------------------
 
 \chapterimage{head3.png}
-\chapter{Five Actionable Events}
-I was not able to find that many actionable events in my Interactive System, but the ones I did find I cover in this section.
-\section{}
+\chapter{Actionable Events}
+I have here, deemed it necessary to limit the number of actionable events to two. This is because I only have two actionable events in the implementation I have created.
+\section{User says the name of a movie}
+When a user says the name of the movie, and the Speech Recognizer is running, it will post the results it was able to find in the designated Slack channel.
+
+\section{User writes a sentiment about a movie}
+If a user writes a sentiment about a movie, the components will try to search for that movie, and post the result, if it can find one, and the sentiment that user has given about it.
+
 
 %----------------------------------------------------------------------------------------
 % CHAPTER 8 Two Valuable Outcomes
@@ -425,9 +547,9 @@ My rather simple implementation of using a Python library \cite{TextBlobTutorial
 \section{Summary of outcomes}
 For both of these outcomes I would, however say, that for me it has been valuable to learn, and try to make the mostly "off-the-shelf" technology work together to create these solutions. And with the amount of time available I am rather happy with what I was able to create.
 
-Future work in this might be interesting, and I do believe that better time, and better knowledge of the API's libraries etcetera would mean a better performing Interactive System.
+Future work in this might be interesting, and I do believe that better time, and better knowledge of the API's libraries would mean a better performing Interactive System.
 
 \printbibliography
 
-\vfill
+%\vfill
 \end{document}

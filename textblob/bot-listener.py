@@ -31,7 +31,13 @@ def findMovieTitle(input):
 #    r = requests.post('http://localhost:3000/', data = jsonify({'text':input}))
 #    print(r.content())
     
-
+def formatUsers(input):
+    message = ""
+    for user in input:
+        message = "\n" + message + user + " "
+        for movie in input[user]:
+            message = message + " " + movie + " score:"+ str(input[user][movie])
+    return message
 
 @app.route('/api/', methods=['POST'])
 def api_post():
@@ -55,12 +61,15 @@ def api_post():
         else:
             users[username] = {noun: sent}
         print (users) #Debug
-        
         return jsonify(text = username + " has a sentiment value " + str(sent) + " for " + noun)
     
-        
+@app.route('/status/', methods=['POST'])
+def api_status():
+    status = formatUsers(users)
+    return jsonify({"text": status})
 
 
+#Gets the current in-memory status of users, movies and sentiments
 @app.route('/api/', methods=['GET'])
 def api_get():
     return jsonify(users)
