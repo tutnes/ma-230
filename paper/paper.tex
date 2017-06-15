@@ -10,7 +10,7 @@
 \title{Filmchat}
 
 %----------------------------------------------------------------------------------------
-%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+% PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
 %----------------------------------------------------------------------------------------
 
 \documentclass[11pt,fleqn]{book} % Default font size and left-justified equations
@@ -43,7 +43,7 @@
 \begin{document}
 
 %----------------------------------------------------------------------------------------
-%	TITLE PAGE
+% TITLE PAGE
 %----------------------------------------------------------------------------------------
 
 \begingroup
@@ -59,7 +59,7 @@
 \endgroup
 
 %----------------------------------------------------------------------------------------
-%	TABLE OF CONTENTS
+% TABLE OF CONTENTS
 %----------------------------------------------------------------------------------------
 
 \chapterimage{head3.png} % Table of contents heading image
@@ -73,14 +73,14 @@
 \pagestyle{fancy} % Print headers again
 
 %----------------------------------------------------------------------------------------
-%	CHAPTER 1 Project Description
+% CHAPTER 1 Project Description
 %----------------------------------------------------------------------------------------
 
 \chapterimage{head3.png} % Chapter heading image
 
 \chapter{Project Description}
 \section{Vision}
-Imagine the following scenario.You, and one or more friends, or maybe a romantic partner, are sitting int the sofa in front of the TV. You are having a movie night, but you are not quite sure what you should see. While you sit and discuss your likes, and dislikes, there is a microphone hidden in the corner. The listens to what you are saying, and it is sending it to an Interactive System. It understands, who is speaking, who is liking a movie, and who is not liking a movie. It also has, from earlier experience, knowledge of what you and maybe the ones you are with have seen, and liked. It also knows what you did not like.
+Imagine the following scenario.You, and one or more friends, or maybe a romantic partner, are sitting in the sofa in front of the TV. You are having a movie night, but you are not quite sure what you should see. While you sit and discuss your likes, and dislikes, there is a microphone hidden in the corner. The listens to what you are saying, and it is sending it to an Interactive System. It understands, who is speaking, who is liking a movie, and who is not liking a movie. It also has, from earlier experience, knowledge of what you and maybe the ones you are with have seen, and liked. It also knows what you did not like.
 
 After a few minutes discussing with the people it starts rolling some suggestions over the television. 
 
@@ -128,19 +128,36 @@ The recommendations I have gotten from the Google Assistan has not been very exc
 
 
 %----------------------------------------------------------------------------------------
-%	CHAPTER 2 Interactive System Description
+% CHAPTER 2 Interactive System Description
 %----------------------------------------------------------------------------------------
 \chapterimage{head3.png}
 
 \chapter{Interactive System: Description}
-There are two parts implemented in this system
-The first part listens to a given channel on Slack, using the outgoing webhook.
-\cite{SlackOutgoingSlack}
-The second part uses Googles Speech API \cite{GoogleCloudPlatformSpeechPlatform} and listens to the microphone. It then tries to search for the terms in the recognized speech and if it finds a movie within it it posts it to the same Slack channel.
+There are three parts implemented in this system
+The first part listens to a given channel on Slack, using the outgoing web hook\cite{SlackOutgoingSlack}.This is the TextBlob Botlisener.Then there is the component that listens to a post message and tries to find a movie from that message. This is the Omdbsearcher.
+The third part is the Speech Regognizer which is heavily based on the Csharp example from Googles Speech API \cite{GoogleCloudPlatformSpeechPlatform} and listens to the microphone. It then tries to search for the terms in the recognized speech and if it finds a movie within it it posts it to the same Slack channel.
 
-The thought of using both of these ways of integrating, was to be able to understand natural language surrounding how people talk and chat about movies, and then later on have the different parts use the same components.
+\section{TextBlob Botlistener}
+A Python web service that uses Textblob\cite{TextBlobTutorial:Documentation} as a way of getting noun phrase, and sentiment from the text it is provided. It gets input from the designated slack channel, using the outgoing web hook \cite{SlackOutgoingSlack}. The TextBlob Botlistener listens to port 8080 by default.
 
-The vision of the project, not the actual implementation sadly, aimed to follow the design guidelines give in the chapter about Social Natural User Interfaces \(NUI\) that Wigdor and Wixon talks about in ther Brave NUI World book. \cite{WigdorBraveWorld}
+\section{Speech Recognizer}
+The Speech recognizer, is based on the Google Speech API \cite{GoogleCloudPlatformSpeechPlatform} and is programmed in Csharp. The code is mostly just adapted to post to a web interface, in addition to printing to the console / cli. The Speech Recognizer listens to the detected microphone on the computer by default. It keeps a python dictionary of the users, and their, movie and their most recent sentiment score in memory.
+
+\section{Omdbsearcher}
+The Omdbsearcher is based on the Open Movie Data base API.\cite{OMDbDatabase}. When it gets text it will try to search for this text on the OMDB Api and return the JSON formatted result if it finds something, or return a negative result if it does not find anything. The web service listens to port 3000 by default.
+
+\newpage
+\section{Architecture}
+\begin{figure}[]
+  \centering
+   \includegraphics[width=0.77\textwidth]{system_flow.png}
+  \caption{System Flow for Filmchat}
+  \label{fig:system_flow}
+\end{figure}
+The thought of using both of these ways of integrating, was to be able to understand natural language surrounding how people talk and chat about movies, and then later on have the different parts use the same components. This is also why I opted for a modular approach building small components, that I could add to on a later point, and that was easy to test using Postman.
+
+\section{Description of the vision}
+The vision of the project, not the actual implementation sadly, aimed to follow the design guidelines give in the chapter about Social Natural User Interfaces \(NUI\) that Wigdor and Wixon talks about in their Brave NUI World book. \cite{WigdorBraveWorld}
 
 Some of the ones I believe fitting to Filmchat are:
 \begin{itemize}
@@ -152,22 +169,18 @@ present.
 \item Be able to continue with fewer users, allowing one user to leave without disrupting all others’ experience.
 \end{itemize}
 I believe them fitting because in the social context of watching a movie the, the experience would come alive, when people are sitting and discussing their likes, and dislikes.
-This could, of course be the case in a chat-room setting such as Slack, as well.
+This could, of course be the case in a chat-room setting such as Slack, as well. In Fig\ref{fig:system_flow} the modular approach can be seen, and building more components, or hooking into third party API's could easily be done. 
 %----------------------------------------------------------------------------------------
-%	CHAPTER 3 Interactive System Design
+% CHAPTER 3 Interactive System Design
 %----------------------------------------------------------------------------------------
 
 \chapterimage{head3.png}
 \chapter{Interactive System: Design}
-\begin{figure}[]
-  \centering
-   \includegraphics[width=0.77\textwidth]{system_flow.png}
-  \caption{System Flow for Filmchat}
-  \label{fig:system_flow}
-\end{figure}
-•	Sketches
-•	Design rationale for the interface
-•	Cost/benefit discussion of selected interaction techniques
+\section{System Flow}
+The system has three main user inputs \(see Fig\ref{fig:system_flow}\) of which two of them are implemented. They are the Speech recognition, and the Chat. The Chat in the implementation listens to a Slack channel using the outgoing web hook \cite{SlackOutgoingSlack}. It then forwards to the sentiment analysis to extract sentiment and noun phrase \cite{WikipediaNounPhrase} this could have been forwarded to other more advanced third party Natural Language Processors\cite{Wikipedia2017NaturalProcessing} such as Wit.AI\cite{Wit.aiWit.ai} and API.AI\cite{API.AIConversationalAPI.AI}. But I decided to use a light weight Python based for faster development, and easier debugging.
+
+The last input, would have used the same modules, but would have gotten their input from a chat room. The difference would have been the more asynchronous behavior of that kind of interaction, but sentiments and information could have been harvested in much the same way.
+\section{Design rationale}
 
 \section{Cost / Benefit of selected interaction techniques}
 \subsection{Chat}
@@ -204,7 +217,7 @@ Caveat: It could be that the actual implemtation example from Google is not the 
 
 
 %----------------------------------------------------------------------------------------
-%	CHAPTER 4 Interactive System: Development
+% CHAPTER 4 Interactive System: Development
 %----------------------------------------------------------------------------------------
 
 \chapterimage{head3.png}
@@ -241,20 +254,20 @@ I then checked out a couple of different ways of intepreting language, but have 
 I therefore just had to create a webservice interface for the TextBlob, and was able to do this quickly.
 
 Description of how it was developed
-o	If coding project, then include key code snippets and discuss them
-o	If using a prototype tool, step-by-step description of how the interactive system was created
+o If coding project, then include key code snippets and discuss them
+o If using a prototype tool, step-by-step description of how the interactive system was created
 
 \section{Spelling corrector}
 While the Textblob Botlistener was able to get the noun phrase\cite{WikipediaNounPhrase} of sentences about movie, and that this sometimes is an actual movie, this is not always the case. Therefore I thought about using some autocorrect or spelling corrections, but using the freely available IMDB datasets as valid words \cite{IMDbAlternativeInterfaces}. I found a good example by Peter Norvig \cite{NorvigHowCorrector} on how to do it.
 But both the development, and the performance was rather slow, and the dataset would have needed quite a lot of cleaning before I could have used it. Therefore I decided on not to implement this part, and to put it off to a possible future work.
 
 %----------------------------------------------------------------------------------------
-%	CHAPTER 5 Interactive System: Evaluation
+% CHAPTER 5 Interactive System: Evaluation
 %----------------------------------------------------------------------------------------
 
 \chapterimage{head3.png}
 \chapter{Interactive System: Evaluation}
-•	Evaluation plan for the interactive system incorporating at least 5 design principles from the course
+• Evaluation plan for the interactive system incorporating at least 5 design principles from the course
 Unfortunately, even though the TextBlob (reference) python Library is good, it is still lacking with regards to the goal of my project.
 It is able to, sometimes recognize the noun phrase and sentiment, but it is not always the case.
 Also keeping context of a ongoing discussion is not something I have looked into at all.
@@ -265,7 +278,7 @@ Also recognizing who actually speaks, is not something I have seen covered in th
 For recognizing users, a chatroom with identified users, is easier.
 
 %----------------------------------------------------------------------------------------
-%	CHAPTER 6 Ten Meaningful Screens
+% CHAPTER 6 Ten Meaningful Screens
 %----------------------------------------------------------------------------------------
 
 \chapterimage{head3.png}
@@ -385,7 +398,7 @@ The only part, not here, is the Speech Recognizer, as I was not able to make it 
 \end{figure}
 
 %----------------------------------------------------------------------------------------
-%	CHAPTER 7 Five Actionable Events
+% CHAPTER 7 Five Actionable Events
 %----------------------------------------------------------------------------------------
 
 \chapterimage{head3.png}
@@ -394,7 +407,7 @@ I was not able to find that many actionable events in my Interactive System, but
 \section{}
 
 %----------------------------------------------------------------------------------------
-%	CHAPTER 8 Two Valuable Outcomes
+% CHAPTER 8 Two Valuable Outcomes
 %----------------------------------------------------------------------------------------
 
 \chapterimage{head3.png}
